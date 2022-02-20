@@ -1,6 +1,7 @@
 <?php 
 	session_start();
 	require_once('addUser.php');
+	require_once('redirect.php');
 	if(isset($_POST['register'])) {
 		if (!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['confirm_password'])) {
 			$login = $_POST['login'];
@@ -9,7 +10,6 @@
 				if ($password == $confirm_password) {
 					addUser($login, $password);
 					$_SESSION['login'] = $login;
-					header('Location: index.php');
 				} else {
 					$message = 'Пароли разные!';
 				};
