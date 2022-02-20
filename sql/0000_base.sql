@@ -57,13 +57,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`id`, `login`, `password`, `created_at`) VALUES
-(23, 'Wuwpan4ik', 'zl', '2022-02-20 15:15:31');
-
---
 -- Индексы сохранённых таблиц
 --
 
