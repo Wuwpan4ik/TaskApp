@@ -10,6 +10,7 @@
 				if ($password == $confirm_password) {
 					addUser($login, $password);
 					$_SESSION['login'] = $login;
+					redirect();
 				} else {
 					$message = 'Пароли разные!';
 				};

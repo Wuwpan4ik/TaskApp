@@ -115,7 +115,7 @@ li {
   border: 5px solid #CF1F21;
 }
 
-.task__item-circle.active {
+.task__item-circle.Ready {
   border: 5px solid #21E718;
 }
 
