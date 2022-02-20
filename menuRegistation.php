@@ -12,9 +12,6 @@
 
 <body>
 	<div class="main">
-		<?php 
-			echo $_SESSION['login'];
-		?>
 		<div class="form">
 			<div class="form__top">
 				<button id="changeFormBtn" class="form__top-btn active" onclick="changeModsAuth()">Авторизация</button><button id="changeFormBtn" class="form__top-btn" onclick="changeModsAuth()">Регистрация</button>

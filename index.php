@@ -3,7 +3,6 @@
 	if (!isset($_SESSION['login'])) {
 		header('Location: menuRegistation.php');
 	}
-	echo $_SESSION['login'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
