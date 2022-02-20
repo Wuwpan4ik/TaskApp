@@ -1,15 +1,17 @@
 <?php 
-	require_once 'connect.php';
-	$a = $db -> query("SELECT * FROM `users` WHERE `password` =".$password);
-	print_r($a);
+	session_start();
+	require_once('redirect.php');
+	require_once ('connect.php');
 	if(isset($_POST['auth'])) {
 		if (!empty($_POST['login']) && !empty($_POST['password'])) {
-			$login = $_POST['login'];
-			$password = $_POST['password'];
-			if (count($db -> query("SELECT * FROM `users` WHERE `login` =". $login . "AND `password` =".$password)) > 0) {
+			$login = (string) $_POST['login'];
+			$password = (string) $_POST['password'];
+			if (count($db -> query("SELECT * FROM `users` WHERE `login` =" .'\''. $login . '\''. " AND `password` =" .'\''.$password .'\'')) > 0) {
 				$message = 'Вы успешно авторизовались!';
-			} else {
-				echo count($db -> query("SELECT * FROM `users` WHERE `login` =". $login));
+				$_SESSION['login'] = $login;
+				echo $_SESSION['login'];
+				redirect();
+			} else { 
 				$message = 'Не';
 			}
 		} else {

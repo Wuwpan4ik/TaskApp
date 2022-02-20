@@ -1,6 +1,6 @@
 <?php 
 	function addUser($login, $password) {
-		require_once 'c.php';
+		require_once 'connect.php';
 		// Проверка на наличие человека с таким же loginом
 		$user = $db -> query("SELECT * FROM `users` WHERE `login` =". $login);
 		if  (count($user) == 0) {
@@ -9,7 +9,7 @@
 			$db -> execute($text);
 			return True;
 		} else {
-			return False;
+			return $message = 'Логин занят!';
 		}
 	}
 	
