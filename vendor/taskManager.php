@@ -5,7 +5,7 @@
 	class Task {
 		public function addTask($db) {
 			$text = $_POST['task__text'];
-			$db -> execute("INSERT INTO `tasks` (`user_id`, `description`) VALUES ('". $_SESSION['id'] ."', '". $text ."')");
+			execute("INSERT INTO `tasks` (`user_id`, `description`) VALUES ('". $_SESSION['id'] ."', '". $text ."')");
 			redirect();
 		}
 
@@ -40,6 +40,7 @@
 			redirect();
 		}
 	}
+
 	if (isset($_POST)) {
 		$task = new Task();
 		if (in_array('addTask', array_keys($_POST))) {
