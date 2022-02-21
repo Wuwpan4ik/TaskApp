@@ -8,7 +8,7 @@ class Database {
 
 	public function connect() {
 		$config = require_once 'constant.php';
-		//Я полтора часа искал ошибку, она вот тут. Можно спросить на собеседование) Будет что рассказать XD
+
 		$dsn = 'mysql:host='. $config['host'].';dbname='. $config['db_name'] .';charset='. $config['charset'] ;
 
 		$this->link = new PDO($dsn, $config['username'], $config['password']);
@@ -28,7 +28,7 @@ class Database {
 		$result = $sth->fetchALL(PDO::FETCH_ASSOC);
 
 		if ($result === false) {
-			return [];
+			return ;
 		}
 
 		return $result;

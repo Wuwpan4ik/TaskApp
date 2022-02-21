@@ -1,17 +1,18 @@
 <?php 
 	session_start();
 	require_once 'redirect.php';
+	require_once 'connect.php';
 	class AuthManager {
-		static public function registration() {
-			require_once 'connect.php';
+		static public function registration($db) {
 			$login = $_POST['login'];
 			$password = $_POST['password'];
-			$user = $db -> query("SELECT * FROM `users` WHERE `login` ='" . $login . "'");
+			$user = $db->query("SELECT * FROM `users` WHERE `login` ='" . $login . "'");
+
 			if  (count($user) == 0) {
 				// Экспорт в базу данных
 				$text = "INSERT INTO `users` (`login`, `password`) VALUES ('". $login ."', '". $password ."')";
 				$db -> execute($text);
-				$_SESSION['id'] = $db -> query("SELECT `id` FROM `users` WHERE `login` ='" . $login . "'")[0]['id'];
+				$_SESSION['id'] = $db->query("SELECT `id` FROM `users` WHERE `login` ='" . $login . "'")[0]['id'];
 				redirect();
 			} else {
 				$message = 'Логин занят!';
@@ -22,17 +23,18 @@
 			echo "<p class=\"error\">" . "MESSAGE: " . $message . "</p>";
 		}
 		}
-		static public function auth() {
-			require_once 'connect.php';
+		static public function auth($db) {
 			$login = (string) $_POST['login'];
 			$password = (string) $_POST['password'];
-			if (count($db -> query("SELECT * FROM `users` WHERE `login` =" . '\'' . $login . '\'' . " AND `password` =" . '\'' .$password .'\'')) > 0) {
+
+			if (count($db->query("SELECT * FROM `users` WHERE `login` =" . '\'' . $login . '\'' . " AND `password` =" . '\'' .$password .'\'')) > 0) {
 				$message = 'Вы успешно авторизовались!';
-				$_SESSION['id'] = $db -> query("SELECT `id` FROM `users` WHERE `login` ='" . $login . "'")[0]['id'];
+				$_SESSION['id'] = $db->query("SELECT `id` FROM `users` WHERE `login` ='" . $login . "'")[0]['id'];
 				redirect();
 			} else { 
 				$message = 'Неправильный пароль';
 			}
+			
 			if (!empty($message))
 				{
 			$message = htmlspecialchars($message);

@@ -3,6 +3,8 @@
 	if (!isset($_SESSION['id'])) {
 		header('Location: menuRegistation.php');
 	}
+	require_once('./vendor/connect.php');
+	$tasks = ($db -> query("SELECT `description`, `status`, `id` FROM `tasks` WHERE user_id = '". $_SESSION['id'] ."'"));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,16 +42,11 @@
 				<ul class="task__list">
 					<?php 
 						// Вывод task
-						//Находим id пользователя и его tasks
-						require_once('./vendor/connect.php');
-						$tasks = ($db -> query("SELECT `description`, `status`, `id` FROM `tasks` WHERE user_id = '". $_SESSION['id'] ."'"));
-
 						if ($tasks) {
 							foreach($tasks as $task) {
 								addTask(htmlspecialchars($task['description']), htmlspecialchars($task['status']), htmlspecialchars($task['id']));
 							}
 						}
-						
 						function addTask($desc, $status, $id) {
 							//Замена текста для кнопки
 							$status == 'Ready' ? $statusForText = 'Unready' :  $statusForText = 'Ready';
