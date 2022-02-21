@@ -14,5 +14,5 @@ function redirect() {
 				</script>
 			</body>
 			</html>';
-};
+	};
 ?>

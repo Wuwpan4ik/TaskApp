@@ -34,5 +34,6 @@ class Database {
 		return $result;
 	}
 };
+global $db;
 $db = new Database();
 ?>	

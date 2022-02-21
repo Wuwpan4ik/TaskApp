@@ -1,6 +1,6 @@
 <?php 
 	session_start();
-	if (!isset($_SESSION['login'])) {
+	if (!isset($_SESSION['id'])) {
 		header('Location: menuRegistation.php');
 	}
 ?>
@@ -22,24 +22,34 @@
 			<div class="task__title">Task list</div>
 			<div class="task__main">
 				<div class="task__form">
-					<form action="vendor/addTask.php" method='POST'>
+					<form action="./vendor/taskManager.php" method='POST'>
 						<div class="form__block">
 							<input class='form__input' name='task__text' type="text" placeholder='Enter text...'>
-							<button type="submit" class="form__btn form__btn-black">Add task</button>
+							<button type="submit" name='addTask' class="form__btn form__btn-black">Add task</button>
 						</div>
 					</form>
 					<div class="form__block">
-						<form action="vendor/deleteAll.php" method='POST'>
-							<button type="submit" name='2' class="form__btn btn ">Remove all</button>
+						<form action="vendor/taskManager.php" method='POST'>
+							<button type="submit" name='deleteAll' class="form__btn btn ">Remove all</button>
 						</form>
-						<form action="vendor/readyAll.php" method='POST'>
-							<button type="submit" class="form__btn btn ">Ready all</button>
+						<form action="vendor/taskManager.php" method='POST'>
+							<button type="submit" name='readyAll' class="form__btn btn ">Ready all</button>
 					</form>
 					</div>
 				</div>
 				<ul class="task__list">
 					<?php 
 						// Вывод task
+						//Находим id пользователя и его tasks
+						require_once('./vendor/connect.php');
+						$tasks = ($db -> query("SELECT `description`, `status`, `id` FROM `tasks` WHERE user_id = '". $_SESSION['id'] ."'"));
+
+						if ($tasks) {
+							foreach($tasks as $task) {
+								addTask(htmlspecialchars($task['description']), htmlspecialchars($task['status']), htmlspecialchars($task['id']));
+							}
+						}
+						
 						function addTask($desc, $status, $id) {
 							//Замена текста для кнопки
 							$status == 'Ready' ? $statusForText = 'Unready' :  $statusForText = 'Ready';
@@ -49,10 +59,10 @@
 										<div class=\"task__item-main\">
 											<div class=\"task__item-info\">
 												<div class=\"task__item-info-text\">{$desc}</div>
-												<form style='display: inline-block;' action=\"./vendor/readyOnce.php\" method='POST'>
+												<form style='display: inline-block;' action=\"./vendor/taskManager.php\" method='POST'>
 													<button name='{$statusForText}{$id}' class=\"form__btn\">{$statusForText}</button>
 												</form>
-												<form style='display: inline-block;' action=\"./vendor/deleteOnce.php\" method='POST'>
+												<form style='display: inline-block;' action=\"./vendor/taskManager.php\" method='POST'>
 													<button name='delete{$id}' class=\"form__btn\">Delete</inp>
 												</form>
 											</div>
@@ -61,17 +71,6 @@
 									</li>";
 
 							echo $task;
-						}
-
-						//Находим id пользователя и его tasks
-						require_once('./vendor/connect.php');
-						$user_id = ($db -> query("SELECT * FROM `users` WHERE login = '" . $_SESSION['login'] . "'"))[0]['id'];
-						$tasks = ($db -> query("SELECT `description`, `status`, `id` FROM `tasks` WHERE user_id = '". $user_id ."'"));
-
-						if ($tasks) {
-							foreach($tasks as $task) {
-								addTask(htmlspecialchars($task['description']), htmlspecialchars($task['status']), htmlspecialchars($task['id']));
-							}
 						}
 					?>	
 				</ul>
